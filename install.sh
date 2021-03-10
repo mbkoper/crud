@@ -7,5 +7,5 @@ apt -y install nodejs git
 git clone https://github.com/mbkoper/crud.git
 cd crud
 npm install
-node ./server.js > server.log&
+node ./server.js > /dev/null&
 
