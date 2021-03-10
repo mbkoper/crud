@@ -2,16 +2,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
-const publicIp = require('public-ip');
+const os = require("os");
 const moment = require('moment-timezone');
 
-const connectionString = 'mongodb://pa-mongo-demo:uiap7JnYMFmbS7ru9genJiNK5NlDRD0Awl7n64ANwFMH5GZkQB1xyBntGashziFS57bOpll7aJPtY9DcDHHOlA==@pa-mongo-demo.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@pa-mongo-demo@' //'mongodb://root:example@127.0.0.1:27017/admin'
+const connectionString = 'mongodb://pamongodb:vmuG76P319kDzBjrko4FKmEanbijFzDcX2m2OAzIWGarTAp3hdmiRworu06A9gYhii3gxRbltCSZ22p4d6bCqw==@pamongodb.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@pa-mongo-demo@' //'mongodb://root:example@127.0.0.1:27017/admin'
 var public_ip;
-
-(async () => {
-    global.public_ip = await publicIp.v4()
-    console.log(global.public_ip)
-})();
 
 app.set('view engine', 'ejs')
 
@@ -33,7 +28,7 @@ MongoClient.connect(connectionString, {
         const quotesCollection = db.collection('quotes')
 
         app.post('/quotes', (req, res) => {
-            req.body.ip = global.public_ip
+            req.body.host = os.hostname();
             req.body.time = moment().tz("CET").format('HH:mm:ss')
             console.log(req.body)
             quotesCollection.insertOne(req.body)
