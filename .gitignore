@@ -1,3 +1,5 @@
 /crud.zip
 /node_modules
 /docker
+# dotenv environment variables file
+.env

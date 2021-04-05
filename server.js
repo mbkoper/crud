@@ -4,8 +4,9 @@ const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 const os = require("os");
 const moment = require('moment-timezone');
+require('dotenv').config();
 
-const connectionString = 'mongodb://pamongodb:vmuG76P319kDzBjrko4FKmEanbijFzDcX2m2OAzIWGarTAp3hdmiRworu06A9gYhii3gxRbltCSZ22p4d6bCqw==@pamongodb.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@pa-mongo-demo@' //'mongodb://root:example@127.0.0.1:27017/admin'
+const connectionString = process.env.DATABASE_URL
 var public_ip;
 
 app.set('view engine', 'ejs')
@@ -13,9 +14,10 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({
     extended: true
 }))
+const port = process.env.WEB_PORT || 8080;
 
-app.listen(80, function () {
-    console.log('listening on 80')
+app.listen(port, function () {
+    console.log(`listening on ${port}`)
 })
 
 
@@ -53,6 +55,13 @@ MongoClient.connect(connectionString, {
                     res.render('index.ejs', {
                         quotes: results
                     })
+                })
+                .catch(error => console.error(error))
+        })
+        app.get('/clear', (req, res) => {
+            db.collection('quotes').deleteMany({}) //verwijder alles
+                .then(results => {
+                    res.redirect('/')
                 })
                 .catch(error => console.error(error))
         })
