@@ -18,7 +18,7 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({
     extended: true
 }))
-const port = process.env.WEB_PORT || 8080;
+const port = process.env.WEB_PORT || 3000;
 
 app.listen(port, function () {
     console.log(`listening on ${port}`)
