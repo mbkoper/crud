@@ -6,7 +6,11 @@ const os = require("os");
 const moment = require('moment-timezone');
 require('dotenv').config();
 
-const connectionString = process.env.DATABASE_URL
+var connectionString
+if (process.env.DATABASE_URL)
+    connectionString = process.env.DATABASE_URL
+else
+    connectionString = "mongodb://cosmos-mongodb-pa:OEkeT69LTD9SpRMTJkOOaBYDSMoIsr9Tq6z6ryMCF6RJS9mVeXnCdRw9eXIbVj1fnbJAcuQhAj6UU97IR2evkQ==@cosmos-mongodb-pa.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmos-mongodb-pa@"
 var public_ip;
 
 app.set('view engine', 'ejs')
